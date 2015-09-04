@@ -25,3 +25,4 @@ mod 'puppetlabs/concat',
 
 mod 'puppetlabs/firewall',
   :git => 'git://github.com/bodepd/puppetlabs-firewall',
+  :ref => '1.7.1'
