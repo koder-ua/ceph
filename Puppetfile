@@ -22,3 +22,6 @@ mod 'puppetlabs/apache',
 mod 'puppetlabs/concat',
   :git => 'git://github.com/puppetlabs/puppetlabs-concat',
   :ref => '1.2.1'
+
+mod 'puppetlabs/firewall',
+  :git => 'git://github.com/bodepd/puppetlabs-firewall',
