@@ -1,0 +1,88 @@
+    $admin_key = 'ADMIN_KEY=='
+    $mon_key = 'MON_KEY=='
+    $bootstrap_osd_key = 'OSD_KEY=='
+    $fsid = '066F558C-6789-4A93-AAF1-5AF1BA01A3AD'
+
+
+    node /mon1/ {
+      class { 'ceph::repo': }
+      class { 'ceph':
+        fsid                => $fsid,
+        mon_initial_members => 'mon1',
+        mon_host            => '172.18.196.247',
+      }
+      ceph::mon { $::hostname:
+        key => $mon_key,
+      }
+      Ceph::Key { 
+        inject         => true,
+        inject_as_id   => 'mon.',
+        inject_keyring => "/var/lib/ceph/mon/ceph-${::hostname}/keyring",
+      } 
+      ceph::key { 'client.admin':
+        secret  => $admin_key,
+        cap_mon => 'allow *',
+        cap_osd => 'allow *',
+        cap_mds => 'allow',
+      }
+      ceph::key { 'client.bootstrap-osd':
+        secret  => $bootstrap_osd_key,
+        cap_mon => 'allow profile bootstrap-osd',
+      }
+      firewall {'010 ceph-mon allow':
+        chain  => 'INPUT',
+        dport  => 6789,
+        proto  => 'tcp',
+        action => accept,
+      }
+
+
+
+    }
+
+    node /osd[12]/ {
+      class { 'ceph::repo': }
+      class { 'ceph':
+        fsid                => $fsid,
+        mon_initial_members => 'mon1',
+        mon_host            => '172.18.196.247',
+      }
+      ceph::osd {
+      '/dev/sdb':
+          ;
+      '/dev/sdc':
+          journal => '';
+#      '/dev/sdi':
+#          journal => '';
+#      '/dev/sdj':
+#          journal => '';
+#      '/dev/sdk':
+#          journal => '';
+
+      }
+      ceph::key {'client.bootstrap-osd':
+         keyring_path => '/var/lib/ceph/bootstrap-osd/ceph.keyring',
+         secret       => $bootstrap_osd_key,
+      }
+      firewall { '011 ceph-osd allow':
+        chain  => 'INPUT',
+        dport  => '6800-7100',
+        proto  => 'tcp',
+        action => accept,
+      }
+
+
+
+    }
+
+    node /cz7626/ {
+      class { 'ceph::repo': }
+      class { 'ceph':
+        fsid                => $fsid,
+        mon_initial_members => 'mon1,mon2,mon3',
+        mon_host            => '172.18.196.247',
+      }
+      ceph::key { 'client.admin':
+        secret => $admin_key
+      }
+    }
