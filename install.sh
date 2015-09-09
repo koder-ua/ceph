@@ -6,15 +6,18 @@ OSDS="osd_host1 osd_host2 osd_host3"
 
 
 
-######### on the node 
-    cd /root/
- mkdir dst_ceph/
+######### on the node ###########
+#    cd /root/
+# mkdir dst_ceph/
 
-    cd dst_ceph/
+  DST='/root/dst_ceph'
+  mkdir -p $DST
+  cd $DST
+
  git clone https://github.com/stackforge/puppet-ceph.git
  git clone git@github.com:vsolovei/ceph.git
- 
-
+    cp -rf $DST/ceph/metadata.json $DST/puppet-ceph
+    cp -rf $DST/ceph/Puppetfile $DST/puppet-ceph
 
 
 
