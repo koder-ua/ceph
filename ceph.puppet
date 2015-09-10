@@ -8,8 +8,8 @@
       class { 'ceph::repo': }
       class { 'ceph':
         fsid                => $fsid,
-        mon_initial_members => 'mon1',
-        mon_host            => '172.18.196.247',
+        mon_initial_members => 'mon1,mon2,mon3',
+        mon_host            => MONS,
       }
       ceph::mon { $::hostname:
         key => $mon_key,
@@ -44,8 +44,8 @@
       class { 'ceph::repo': }
       class { 'ceph':
         fsid                => $fsid,
-        mon_initial_members => 'mon1',
-        mon_host            => '172.18.196.247',
+        mon_initial_members => 'mon1,mon2,mon3',
+        mon_host            => MONS,
       }
       ceph::osd {
       '/dev/sdb':
@@ -80,7 +80,7 @@
       class { 'ceph':
         fsid                => $fsid,
         mon_initial_members => 'mon1,mon2,mon3',
-        mon_host            => '172.18.196.247',
+        mon_host            => MONS,
       }
       ceph::key { 'client.admin':
         secret => $admin_key

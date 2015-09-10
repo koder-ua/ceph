@@ -6,8 +6,8 @@ OSDS="osd_host1 osd_host2 osd_host3"
 
 
   DST='/root/dst_ceph'
-  mkdir -p $DST
-  cd $DST
+      mkdir -p $DST
+      cd $DST
 
  git clone https://github.com/stackforge/puppet-ceph.git
  git clone git@github.com:vsolovei/ceph.git
@@ -17,8 +17,31 @@ OSDS="osd_host1 osd_host2 osd_host3"
     rm -rf $DST/ceph
     mv puppet-ceph ceph
 
- tar cfvz ceph.tar.gz ceph
+ cd ceph/
 
+
+#######################################
+#       !!!!!  WARNING  !!!!!         #
+#      require package 'pwgen'        #
+
+ ADMIN_KEY=`pwgen 40 1`
+ MON_KEY=`pwgen 40 1`
+ OSD_KEY=`pwgen 40 1`
+
+#######################################
+  MONS_CEPH_PUPPET=`echo $MONS | sed "s/ /,/g"`
+
+
+     sed -i "s/ADMIN_KEY/$ADMIN_KEY/g" ceph.puppet
+     sed -i "s/MON_KEY/$MON_KEY/g" ceph.puppet
+     sed -i "s/OSD_KEY/$OSD_KEY/g" ceph.puppet
+     sed -i "s/MONS/'$MONS_CEPH_PUPPET'/g" ceph.puppet
+
+
+
+ cd ..
+
+     tar cfvz ceph.tar.gz ceph
 
 ##############################
 #    for i in $MONS; do      #
