@@ -37,8 +37,6 @@ OSDS="osd_host1 osd_host2 osd_host3"
      sed -i "s/OSD_KEY/$OSD_KEY/g" ceph.puppet
      sed -i "s/MONS/'$MONS_CEPH_PUPPET'/g" ceph.puppet
 
-
-
  cd ..
 
      tar cfvz ceph.tar.gz ceph
@@ -67,8 +65,8 @@ OSDS="osd_host1 osd_host2 osd_host3"
 # cat Gemfile | grep -w gem | sed "s/,/ /g" | awk {'print $2'} #
 ################################################################
 
-    sudo gem install bundler
-    bundle install
+    sudo gem install bundler >> /root/gem_install.log
+    bundle install >> /root/bundle_install.log
 
         # Install Puppet modules
 
