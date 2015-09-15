@@ -16,7 +16,7 @@
 
     cp -rf $DST/ceph/metadata.json $DST/puppet-ceph
     cp -rf $DST/ceph/deploy.sh $DST/puppet-ceph
-    cp -rf $DST/ceph/Puppetfile $DST/puppet-ceph
+#    cp -rf $DST/ceph/Puppetfile $DST/puppet-ceph
     cp -rf $DST/ceph/ceph.puppet $DST/puppet-ceph
 
         rm -rf $DST/ceph
