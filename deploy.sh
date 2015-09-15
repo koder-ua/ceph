@@ -2,6 +2,7 @@
 
 ################################################
 #      for first time work only in ubuntu      #
+
  apt-get install ruby build-essential ruby1.9.1 ruby1.9.1-dev libxml2 zlib-bin zlib1g zlib1g-dev
 
 
@@ -14,7 +15,7 @@
      sudo gem install bundler >> /root/gem_install.log
      bundle install >> /root/bundle_install.log
 
-  # Install Puppet modules
+ # Install Puppet modules
 
      puppet module install puppetlabs-stdlib
      puppet module install puppetlabs-apt

@@ -4,12 +4,12 @@
     $fsid = '066F558C-6789-4A93-AAF1-5AF1BA01A3AD'
 
 
-    node /mon1/ {
+    node /MONS/ {
       class { 'ceph::repo': }
       class { 'ceph':
         fsid                => $fsid,
         mon_initial_members => 'mon1,mon2,mon3',
-        mon_host            => MONS,
+        mon_host            => MON_HOSTS,
       }
       ceph::mon { $::hostname:
         key => $mon_key,
@@ -25,10 +25,12 @@
         cap_osd => 'allow *',
         cap_mds => 'allow',
       }
+
       ceph::key { 'client.bootstrap-osd':
         secret  => $bootstrap_osd_key,
         cap_mon => 'allow profile bootstrap-osd',
       }
+
       firewall {'010 ceph-mon allow':
         chain  => 'INPUT',
         dport  => 6789,
@@ -40,47 +42,36 @@
 
     }
 
-    node /osd[12]/ {
+    node /OSDS/ {
       class { 'ceph::repo': }
       class { 'ceph':
         fsid                => $fsid,
         mon_initial_members => 'mon1,mon2,mon3',
-        mon_host            => MONS,
+        mon_host            => MON_HOSTS,
       }
-      ceph::osd {
-      '/dev/sdb':
-          ;
-      '/dev/sdc':
-          journal => '';
-#      '/dev/sdi':
-#          journal => '';
-#      '/dev/sdj':
-#          journal => '';
-#      '/dev/sdk':
-#          journal => '';
 
+      ceph::osd {
+DISKS
       }
       ceph::key {'client.bootstrap-osd':
          keyring_path => '/var/lib/ceph/bootstrap-osd/ceph.keyring',
          secret       => $bootstrap_osd_key,
       }
+
       firewall { '011 ceph-osd allow':
         chain  => 'INPUT',
         dport  => '6800-7100',
         proto  => 'tcp',
         action => accept,
       }
+  }
 
-
-
-    }
-
-    node /cz7626/ {
+    node /CLIENTS/ {
       class { 'ceph::repo': }
       class { 'ceph':
         fsid                => $fsid,
         mon_initial_members => 'mon1,mon2,mon3',
-        mon_host            => MONS,
+        mon_host            => MON_HOSTS,
       }
       ceph::key { 'client.admin':
         secret => $admin_key
