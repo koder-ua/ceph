@@ -24,7 +24,7 @@
      puppet module install puppetlabs-concat
      puppet module install puppetlabs-firewall
 
-     cp -rf $DST/ceph /etc/puppetlabs/code/modules/
+     cp -rf /root/dst_ceph/ceph /etc/puppetlabs/code/modules/
      cd /etc/puppetlabs/code/modules/ceph
 
 ###############################################################

@@ -1,7 +1,7 @@
     $admin_key = 'ADMIN_KEY=='
     $mon_key = 'MON_KEY=='
     $bootstrap_osd_key = 'OSD_KEY=='
-    $fsid = '066F558C-6789-4A93-AAF1-5AF1BA01A3AD'
+    $fsid = 'UUID'
 
 
     node /MONS/ {
@@ -51,7 +51,7 @@
       }
 
       ceph::osd {
-DISKS
+ DISKS
       }
       ceph::key {'client.bootstrap-osd':
          keyring_path => '/var/lib/ceph/bootstrap-osd/ceph.keyring',
