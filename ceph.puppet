@@ -54,7 +54,7 @@
  DISKS
       }
       ceph::key {'client.bootstrap-osd':
-         keyring_path => '/var/lib/ceph/bootstrap-osd/ceph.keyring',
+         keyring_path => '/etc/ceph/bootstrap-osd.keyring',
          secret       => $bootstrap_osd_key,
       }
 

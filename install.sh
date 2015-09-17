@@ -16,6 +16,7 @@
 
     cp -rf $DST/ceph/metadata.json $DST/puppet-ceph
     cp -rf $DST/ceph/deploy.sh $DST/puppet-ceph
+    cp -rf $DST/ceph/gen.py $DST/puppet-ceph
 #    cp -rf $DST/ceph/Puppetfile $DST/puppet-ceph
     cp -rf $DST/ceph/ceph.puppet $DST/puppet-ceph
 
@@ -24,12 +25,9 @@
 
   cd ceph/
 
-  #######################################
-  #       !!!!!  WARNING  !!!!!         #
-  #      require package 'pwgen'        #
-   ADMIN_KEY=`pwgen 40 1`
-   MON_KEY=`pwgen 40 1`
-   OSD_KEY=`pwgen 40 1`
+   ADMIN_KEY=`gen.py`
+   MON_KEY=`gen.py`
+   OSD_KEY=`gen.py`
   #######################################
 
   UUID=`uuidgen`
