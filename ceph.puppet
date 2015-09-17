@@ -1,6 +1,6 @@
-    $admin_key = 'ADMIN_KEY=='
-    $mon_key = 'MON_KEY=='
-    $bootstrap_osd_key = 'OSD_KEY=='
+    $admin_key = 'ADMIN_KEY'
+    $mon_key = 'MON_KEY'
+    $bootstrap_osd_key = 'OSD_KEY'
     $fsid = 'UUID'
 
 
