@@ -7,12 +7,12 @@
 ### WARNING !! use format <OSD_DISK>:<OSD_JORNAL>  for example sda:sdb1 sdc:sdb2 ....
  DISKS='sda:sdb1 sdd:sdb2 sdf:sdb3 sde:sdb4 sdg: sdk:sdb5 sdh:sdi1'
 
- DST='/root/dst_ceph'
+ DST='/tmp/dst_ceph'
       mkdir -p $DST
       cd $DST
 
  git clone https://github.com/stackforge/puppet-ceph.git
- git clone git@github.com:vsolovei/ceph.git
+ git clone -b install_script https://github.com/vsolovei/ceph.git
 
     cp -rf $DST/ceph/metadata.json $DST/puppet-ceph
     cp -rf $DST/ceph/deploy.sh $DST/puppet-ceph
@@ -60,30 +60,31 @@
  cd ..
      tar cfvz ceph.tar.gz ceph
 
-
  for m in $MONS; do
         echo 'copy tarball to ' $m ' and start deploying'
-        ssh $m 'mkdir /root/dst_ceph'
-        scp caph.tar.gz $m:/root/dst_ceph/ceph.tar.gz
-        ssh $m 'tar xvfz /root/dst_ceph/ceph.tar.gz'
-        ssh $m '/root/dst_ceph/deploy.sh'
-        ssh $m 'rm -f ceph.tar.gz';
+        ssh $m 'mkdir -p /tmp/dst_ceph/'
+        scp $DST/ceph.tar.gz $m:/tmp/dst_ceph/ceph.tar.gz
+        ssh $m 'cd /tmp/dst_ceph; tar xvfz /tmp/dst_ceph/ceph.tar.gz'
+        ssh $m '/tmp/dst_ceph/ceph/deploy.sh'
+        ssh $m 'rm -f /tmp/dst_ceph/ceph.tar.gz';
     done
 
  for o in $OSDS; do
         echo 'copy tarball to ' $o ' and start deploying'
-        ssh $o 'mkdir /root/dst_ceph'
-        scp caph.tar.gz $o:/root/dst_ceph/ceph.tar.gz
-        ssh $o 'tar xvfz /root/dst_ceph/ceph.tar.gz'
-        ssh $o '/root/dst_ceph/deploy.sh'
-        ssh $o 'rm -f ceph.tar.gz';
+        ssh $o 'mkdir -p /tmp/dst_ceph'
+        scp $DST/ceph.tar.gz $o:/tmp/dst_ceph/ceph.tar.gz
+        ssh $o 'cd /tmp/dst_ceph; tar xvfz /tmp/dst_ceph/ceph.tar.gz'
+        ssh $o '/tmp/dst_ceph/ceph/deploy.sh'
+        ssh $o 'rm -f /tmp/dst_ceph/ceph.tar.gz';
     done
 
  for c in $CLIENTS; do
         echo 'copy tarball to ' $c ' and start deploying'
-        ssh $c 'mkdir /root/dst_ceph'
-        scp caph.tar.gz $j:/root/dst_ceph/ceph.tar.gz
-        ssh $c 'tar xvfz /root/dst_ceph/ceph.tar.gz'
-        ssh $c '/root/dst_ceph/deploy.sh'
-        ssh $c 'rm -f ceph.tar.gz';
+        ssh $c 'mkdir /tmp/dst_ceph'
+        scp $DST/ceph.tar.gz $j:/tmp/dst_ceph/ceph.tar.gz
+        ssh $c 'cd /tmp/dst_ceph; tar xvfz /tmp/dst_ceph/ceph.tar.gz'
+        ssh $c '/tmp/dst_ceph/ceph/deploy.sh'
+        ssh $c 'rm -f /tmp/dst_ceph/ceph.tar.gz';
     done
+
+

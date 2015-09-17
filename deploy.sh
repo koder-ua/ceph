@@ -3,7 +3,7 @@
 ################################################
 #      for first time work only in ubuntu      #
 
- apt-get install ruby build-essential ruby1.9.1 ruby1.9.1-dev libxml2 zlib-bin zlib1g zlib1g-dev
+ sudo apt-get install ruby build-essential ruby1.9.1 ruby1.9.1-dev libxml2 zlib-bin zlib1g zlib1g-dev
 
 
 
@@ -12,22 +12,22 @@
 # cat Gemfile | grep -w gem | sed "s/,/ /g" | awk {'print $2'} #
 ################################################################
 
-     sudo gem install bundler >> /root/gem_install.log
+    sudo  gem install bundler >> /root/gem_install.log
      bundle install >> /root/bundle_install.log
 
  # Install Puppet modules
 
-     puppet module install puppetlabs-stdlib
-     puppet module install puppetlabs-apt
-     puppet module install puppetlabs-inifile
-     puppet module install puppetlabs-apache
-     puppet module install puppetlabs-concat
-     puppet module install puppetlabs-firewall
+    sudo  puppet module install puppetlabs-stdlib
+    sudo  puppet module install puppetlabs-apt
+    sudo  puppet module install puppetlabs-inifile
+    sudo  puppet module install puppetlabs-apache
+    sudo  puppet module install puppetlabs-concat
+    sudo  puppet module install puppetlabs-firewall
 
-     cp -rf /root/dst_ceph/ceph /etc/puppetlabs/code/modules/
-     cd /etc/puppetlabs/code/modules/ceph
+    sudo cp -rf /root/dst_ceph/ceph /etc/puppetlabs/code/modules/
+    sudo cd /etc/puppetlabs/code/modules/ceph
 
 ###############################################################
 
-     puppet apply /tmp/ceph.puppet
+    sudo puppet apply /tmp/ceph.puppet
 
