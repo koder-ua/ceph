@@ -1,4 +1,4 @@
-#! /bin/python
+#! /usr/bin/python
 
 import errno
 import logging
