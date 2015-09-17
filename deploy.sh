@@ -12,8 +12,8 @@
 # cat Gemfile | grep -w gem | sed "s/,/ /g" | awk {'print $2'} #
 ################################################################
 
-    sudo  gem install -q bundler >> /root/gem_install.log
-     bundle install >> /root/bundle_install.log
+    sudo  gem install -q bundler >> /tmp/dst_ceph/gem_install.log
+     bundle install >> /tmp/dst_ceph/bundle_install.log
 
  # Install Puppet modules
 
