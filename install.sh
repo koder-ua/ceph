@@ -4,8 +4,22 @@
  CLIENTS="client_host1 client_host2"
  OSDS="osd_host1 osd_host2 osd_host3"
 
+###############################################################################
+# if you want to specify KEYs, insert them here
+# else, leave this parameters empty and keys will be generated automatically
+
+  ADMIN_KEY=''
+  MON_KEY=''
+  OSD_KEY=''
+
+###############################################################################
+
+
 ### WARNING !! use format <OSD_DISK>:<OSD_JORNAL>  for example sda:sdb1 sdc:sdb2 ....
  DISKS='sda:sdb1 sdd:sdb2 sdf:sdb3 sde:sdb4 sdg: sdk:sdb5 sdh:sdi1'
+
+
+
 
  DST='/tmp/dst_ceph'
       mkdir -p $DST
@@ -25,9 +39,32 @@
 
   cd ceph/
 
-   ADMIN_KEY=`gen.py`
-   MON_KEY=`gen.py`
-   OSD_KEY=`gen.py`
+
+    if [ "$ADMIN_KEY" == "" ]
+     then
+     ADMIN_KEY=`/home/git/tmp/gen.py`
+    fi
+echo 'ADMIN_KEY = '$ADMIN_KEY
+
+    if [ "$MON_KEY" == "" ]
+     then
+     MON_KEY=`/home/git/tmp/gen.py`
+    fi
+echo 'MON_KEY = '$MON_KEY
+
+    if [ "$OSD_KEY" == "" ]
+     then
+     OSD_KEY=`/home/git/tmp/gen.py`
+    fi
+echo 'OSD_KEY = '$OSD_KEY
+
+
+
+
+
+#   ADMIN_KEY=`gen.py`
+#   MON_KEY=`gen.py`
+#   OSD_KEY=`gen.py`
   #######################################
 
   UUID=`uuidgen`
