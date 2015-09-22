@@ -12,7 +12,7 @@
 # cat Gemfile | grep -w gem | sed "s/,/ /g" | awk {'print $2'} #
 ################################################################
 
-    cd /tmp/dst_ceph/ceph/
+    cd /tmp/TMP_INSTALL_ceph/ceph/
 
     sudo  gem install -q bundler >> /var/log/gem_install.log
     bundle install >> /var/log/bundle_install.log
@@ -26,7 +26,7 @@
     sudo  puppet module install puppetlabs-concat
     sudo  puppet module install puppetlabs-firewall
 
-    sudo cp -rf /tmp/dst_ceph/ceph /etc/puppetlabs/code/modules/
+    sudo cp -rf /tmp/TMP_INSTALL_ceph/ceph /etc/puppetlabs/code/modules/
     sudo cd /etc/puppetlabs/code/modules/ceph/
 
 ###############################################################
