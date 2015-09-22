@@ -3,7 +3,7 @@
 ################################################
 #      for first time work only in ubuntu      #
 
- sudo apt-get install --assume-yes ruby build-essential ruby1.9.1 ruby1.9.1-dev libxml2 zlib-bin zlib1g zlib1g-dev
+ sudo apt-get install --assume-yes ruby build-essential ruby1.9.1 ruby1.9.1-dev libxml2 zlib-bin zlib1g zlib1g-dev iptables-persistent
 
 
 
