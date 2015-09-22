@@ -1,5 +1,9 @@
 #! /bin/bash
+# koder: set -e, set -o pipefail
 
+# koder: remove begin spaces, where unnesessary
+
+# koder: use ENV values in case if they set
  MONS="mon_host1 mon_host2 mon_host3"
  CLIENTS="client_host1 client_host2"
  OSDS="osd_host1 osd_host2 osd_host3"
@@ -8,6 +12,7 @@
 # if you want to specify KEYs, insert them here
 # else, leave this parameters empty and keys will be generated automatically
 
+# koder: use ENV values in case if they set
   ADMIN_KEY=''
   MON_KEY=''
   OSD_KEY=''
@@ -16,12 +21,16 @@
 
 
 ### WARNING !! use format <OSD_DISK>:<OSD_JORNAL>  for example sda:sdb1 sdc:sdb2 ....
+# koder: use ENV values in case if they set
  DISKS='sda:sdb1 sdd:sdb2 sdf:sdb3 sde:sdb4 sdg: sdk:sdb5 sdh:sdi1'
 
 
 
 
- TMP_INSTALL='/tmp/TMP_INSTALL_ceph'
+# koder: use mktemp call
+TMP_INSTALL='/tmp/TMP_INSTALL_ceph'
+
+# koder: put all path in ""
       mkdir -p $TMP_INSTALL
       cd $TMP_INSTALL
 
@@ -40,10 +49,13 @@
   cd ceph/
 
 
+# koder: [ -z "$VAR" ]
     if [ "$ADMIN_KEY" == "" ]
      then
      ADMIN_KEY=`$TMP_INSTALL/ceph/gen.py`
     fi
+
+# koder: echo "ADMIN_KEY = $ADMIN_KEY"
  echo 'ADMIN_KEY = '$ADMIN_KEY
 
     if [ "$MON_KEY" == "" ]
@@ -77,6 +89,7 @@
 
 
     for i in $DISKS; do
+          # koder: http://stackoverflow.com/questions/918886/how-do-i-split-a-string-on-a-delimiter-in-bash
           A=$(echo $i | awk -F ":" {'print $1'})
           B=$(echo $i | awk -F ":" {'print $2'})
        sed -i "s/DISKS/DISKS\n\t'\/dev\/$A':\n\t\t journal => '$B';/g" ceph.puppet;
@@ -85,10 +98,13 @@
 
 
  cd ..
+ # koder: use temporary name
      tar cfvz ceph.tar.gz ceph
 
+# koder: add SSH_KEYS to all ssh calls
  for m in $MONS; do
         echo 'copy tarball to ' $m ' and start deploying'
+        # koder: use mktemp
         ssh $m 'mkdir -p /tmp/TMP_INSTALL_ceph/'
         scp $TMP_INSTALL/ceph.tar.gz $m:/tmp/TMP_INSTALL_ceph/ceph.tar.gz
         ssh $m 'cd /tmp/TMP_INSTALL_ceph; tar xvfz /tmp/TMP_INSTALL_ceph/ceph.tar.gz'
@@ -96,6 +112,7 @@
         ssh $m 'rm -f /tmp/TMP_INSTALL_ceph/ceph.tar.gz';
     done
 
+# koder: parallelize OSD install
  for o in $OSDS; do
         echo 'copy tarball to ' $o ' and start deploying'
         ssh $o 'mkdir -p /tmp/TMP_INSTALL_ceph'
@@ -105,6 +122,7 @@
         ssh $o 'rm -f /tmp/TMP_INSTALL_ceph/ceph.tar.gz';
     done
 
+# koder: parallelize client install
  for c in $CLIENTS; do
         echo 'copy tarball to ' $c ' and start deploying'
         ssh $c 'mkdir /tmp/TMP_INSTALL_ceph'
