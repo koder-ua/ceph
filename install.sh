@@ -21,20 +21,20 @@
 
 
 
- DST='/tmp/dst_ceph'
-      mkdir -p $DST
-      cd $DST
+ TMP_INSTALL='/tmp/TMP_INSTALL_ceph'
+      mkdir -p $TMP_INSTALL
+      cd $TMP_INSTALL
 
  git clone https://github.com/stackforge/puppet-ceph.git
  git clone -b install_script https://github.com/vsolovei/ceph.git
 
-    cp -rf $DST/ceph/metadata.json $DST/puppet-ceph
-    cp -rf $DST/ceph/deploy.sh $DST/puppet-ceph
-    cp -rf $DST/ceph/gen.py $DST/puppet-ceph
-#    cp -rf $DST/ceph/Puppetfile $DST/puppet-ceph
-    cp -rf $DST/ceph/ceph.puppet $DST/puppet-ceph
+    cp -rf $TMP_INSTALL/ceph/metadata.json $TMP_INSTALL/puppet-ceph
+    cp -rf $TMP_INSTALL/ceph/deploy.sh $TMP_INSTALL/puppet-ceph
+    cp -rf $TMP_INSTALL/ceph/gen.py $TMP_INSTALL/puppet-ceph
+#    cp -rf $TMP_INSTALL/ceph/Puppetfile $TMP_INSTALL/puppet-ceph
+    cp -rf $TMP_INSTALL/ceph/ceph.puppet $TMP_INSTALL/puppet-ceph
 
-        rm -rf $DST/ceph
+        rm -rf $TMP_INSTALL/ceph
         mv puppet-ceph ceph
 
   cd ceph/
@@ -42,19 +42,19 @@
 
     if [ "$ADMIN_KEY" == "" ]
      then
-     ADMIN_KEY=`/home/git/tmp/gen.py`
+     ADMIN_KEY=`$TMP_INSTALL/ceph/gen.py`
     fi
  echo 'ADMIN_KEY = '$ADMIN_KEY
 
     if [ "$MON_KEY" == "" ]
      then
-     MON_KEY=`/home/git/tmp/gen.py`
+     MON_KEY=`$TMP_INSTALL/ceph/gen.py`
     fi
  echo 'MON_KEY = '$MON_KEY
 
     if [ "$OSD_KEY" == "" ]
      then
-     OSD_KEY=`/home/git/tmp/gen.py`
+     OSD_KEY=`$TMP_INSTALL/ceph/gen.py`
     fi
  echo 'OSD_KEY = '$OSD_KEY
 
@@ -89,29 +89,29 @@
 
  for m in $MONS; do
         echo 'copy tarball to ' $m ' and start deploying'
-        ssh $m 'mkdir -p /tmp/dst_ceph/'
-        scp $DST/ceph.tar.gz $m:/tmp/dst_ceph/ceph.tar.gz
-        ssh $m 'cd /tmp/dst_ceph; tar xvfz /tmp/dst_ceph/ceph.tar.gz'
-        ssh $m '/tmp/dst_ceph/ceph/deploy.sh'
-        ssh $m 'rm -f /tmp/dst_ceph/ceph.tar.gz';
+        ssh $m 'mkdir -p /tmp/TMP_INSTALL_ceph/'
+        scp $TMP_INSTALL/ceph.tar.gz $m:/tmp/TMP_INSTALL_ceph/ceph.tar.gz
+        ssh $m 'cd /tmp/TMP_INSTALL_ceph; tar xvfz /tmp/TMP_INSTALL_ceph/ceph.tar.gz'
+        ssh $m '/tmp/TMP_INSTALL_ceph/ceph/deploy.sh'
+        ssh $m 'rm -f /tmp/TMP_INSTALL_ceph/ceph.tar.gz';
     done
 
  for o in $OSDS; do
         echo 'copy tarball to ' $o ' and start deploying'
-        ssh $o 'mkdir -p /tmp/dst_ceph'
-        scp $DST/ceph.tar.gz $o:/tmp/dst_ceph/ceph.tar.gz
-        ssh $o 'cd /tmp/dst_ceph; tar xvfz /tmp/dst_ceph/ceph.tar.gz'
-        ssh $o '/tmp/dst_ceph/ceph/deploy.sh'
-        ssh $o 'rm -f /tmp/dst_ceph/ceph.tar.gz';
+        ssh $o 'mkdir -p /tmp/TMP_INSTALL_ceph'
+        scp $TMP_INSTALL/ceph.tar.gz $o:/tmp/TMP_INSTALL_ceph/ceph.tar.gz
+        ssh $o 'cd /tmp/TMP_INSTALL_ceph; tar xvfz /tmp/TMP_INSTALL_ceph/ceph.tar.gz'
+        ssh $o '/tmp/TMP_INSTALL_ceph/ceph/deploy.sh'
+        ssh $o 'rm -f /tmp/TMP_INSTALL_ceph/ceph.tar.gz';
     done
 
  for c in $CLIENTS; do
         echo 'copy tarball to ' $c ' and start deploying'
-        ssh $c 'mkdir /tmp/dst_ceph'
-        scp $DST/ceph.tar.gz $j:/tmp/dst_ceph/ceph.tar.gz
-        ssh $c 'cd /tmp/dst_ceph; tar xvfz /tmp/dst_ceph/ceph.tar.gz'
-        ssh $c '/tmp/dst_ceph/ceph/deploy.sh'
-        ssh $c 'rm -f /tmp/dst_ceph/ceph.tar.gz';
+        ssh $c 'mkdir /tmp/TMP_INSTALL_ceph'
+        scp $TMP_INSTALL/ceph.tar.gz $j:/tmp/TMP_INSTALL_ceph/ceph.tar.gz
+        ssh $c 'cd /tmp/TMP_INSTALL_ceph; tar xvfz /tmp/TMP_INSTALL_ceph/ceph.tar.gz'
+        ssh $c '/tmp/TMP_INSTALL_ceph/ceph/deploy.sh'
+        ssh $c 'rm -f /tmp/TMP_INSTALL_ceph/ceph.tar.gz';
     done
 
 
