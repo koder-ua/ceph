@@ -14,8 +14,8 @@
 
     cd /tmp/dst_ceph/ceph/
 
-    sudo  gem install -q bundler >> /tmp/dst_ceph/gem_install.log
-     bundle install >> /tmp/dst_ceph/bundle_install.log
+    sudo  gem install -q bundler >> /var/log/gem_install.log
+    bundle install >> /var/log/bundle_install.log
 
  # Install Puppet modules
 

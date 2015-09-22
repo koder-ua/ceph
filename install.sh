@@ -44,28 +44,20 @@
      then
      ADMIN_KEY=`/home/git/tmp/gen.py`
     fi
-echo 'ADMIN_KEY = '$ADMIN_KEY
+ echo 'ADMIN_KEY = '$ADMIN_KEY
 
     if [ "$MON_KEY" == "" ]
      then
      MON_KEY=`/home/git/tmp/gen.py`
     fi
-echo 'MON_KEY = '$MON_KEY
+ echo 'MON_KEY = '$MON_KEY
 
     if [ "$OSD_KEY" == "" ]
      then
      OSD_KEY=`/home/git/tmp/gen.py`
     fi
-echo 'OSD_KEY = '$OSD_KEY
+ echo 'OSD_KEY = '$OSD_KEY
 
-
-
-
-
-#   ADMIN_KEY=`gen.py`
-#   MON_KEY=`gen.py`
-#   OSD_KEY=`gen.py`
-  #######################################
 
   UUID=`uuidgen`
   MONS_CEPH_PUPPET=`echo $MONS | sed "s/ /,/g"`
